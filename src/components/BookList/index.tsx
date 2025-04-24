@@ -20,9 +20,9 @@ export const BookList = ({ books, isLoading, isError }: BookListProps) => {
 
   return (
     // TODO: refactor and unify styles for skeleton and card
-    <SimpleGrid columns={{ base: 1, sm: 2, md: 3, lg: 4 }}>
+    <SimpleGrid columns={{ base: 1, sm: 2, md: 3, lg: 4, xl: 5, '2xl': 7 }}>
       {isLoading
-        ? Array(8)
+        ? Array(16)
             .fill(0)
             .map((_, i) => <Skeleton margin={4} key={i} height="400px" borderRadius="md" />)
         : books?.map((book) => <BookCard key={book.id} book={book} />)}
