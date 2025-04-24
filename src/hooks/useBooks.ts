@@ -1,4 +1,4 @@
-import { Book } from '@/types/book';
+import { BookListData } from '@/types/book-list-data';
 import { useFetch } from './useFetch';
 
 /**
@@ -7,10 +7,14 @@ import { useFetch } from './useFetch';
  * @returns books data and fetch status
  */
 export const useBooks = (url: string) => {
-  const { data, loading, error } = useFetch<Book[]>(url);
+  const { data, loading, error } = useFetch<BookListData>(url);
 
   return {
-    books: data || [],
+    data: data || {
+      bookList: {
+        books: [],
+      },
+    },
     isLoading: loading,
     isError: !!error,
     error,

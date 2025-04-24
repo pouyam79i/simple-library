@@ -4,8 +4,8 @@
 export type Book = {
   id: number;
   title: string;
-  authors: string[];
+  // authors: string[];
   price: number;
   rating: number;
-  coverUrl: string;
+  coverUri: string;
 };
