@@ -11,7 +11,6 @@ type BookCardProps = {
 /**
  * This is a functional component to display book data
  * @param BookCardProps book data
- * @returns
  */
 export const BookCard = ({ book }: BookCardProps) => (
   <Card.Root

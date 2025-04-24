@@ -2,12 +2,21 @@ import { Book } from '@/types/book';
 import { SimpleGrid, Skeleton, Alert } from '@chakra-ui/react';
 import { BookCard } from '../BookCard';
 
+/**
+ * Properties of BookList
+ */
 type BookListProps = {
   books: Book[];
   isLoading: boolean;
   isError: boolean;
 };
 
+/**
+ * Renders list of books in a proper manner.
+ * @param {Book[]} books array of books
+ * @param {boolean} isLoading loading status
+ * @param {Error} isError indicated error if it cannot pass data
+ */
 export const BookList = ({ books, isLoading, isError }: BookListProps) => {
   if (isError) {
     return (
