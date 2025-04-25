@@ -15,9 +15,10 @@ type BookListProps = {
 
 /**
  * Renders list of books in a proper manner.
- * @param {Book[]} books array of books
- * @param {boolean} isLoading loading status
- * @param {Error} isError indicated error if it cannot pass data
+ * @param books array of books
+ * @param isLoading loading status
+ * @param isError indicated error if it cannot pass data
+ * @param loadMore a callback called when reached to the end and there is more data!
  */
 export const BookList = ({ books, isLoading, isError, loadMore }: BookListProps) => {
   // Scroll handler
