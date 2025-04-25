@@ -40,7 +40,7 @@ export const BookList = ({ books, isLoading, isError, hasMore, loadMore }: BookL
           : books?.map((book) => <BookCard key={book.id} book={book} />)}
       </SimpleGrid>
       {isLoading && books?.length > 0 && (
-        <VStack colorPalette="teal" marginBottom="10px">
+        <VStack width="100%" position="fixed" top="20px" colorPalette="teal">
           <Spinner color="colorPalette.600" size="xl" />
         </VStack>
       )}
