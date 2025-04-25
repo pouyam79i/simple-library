@@ -1,4 +1,5 @@
 import { BookList } from '@/components/BookList';
+import { Navbar } from '@/components/Navbar';
 import { useBooks } from '@/hooks/useBooks';
 import { BookListData } from '@/types/book-list-data';
 import { fetchInitialBooks } from '@/utils/api';
@@ -37,15 +38,30 @@ interface HomeProps {
  * Renders home page
  */
 export default function Home({ initialData, error }: HomeProps) {
-  const { books, isLoading, isError, hasMore, loadMore } = useBooks(
+  const { books, isLoading, isError, hasMore, loadMore, updateParams } = useBooks(
     BASE_URL,
     INITIAL_PARAMS,
     initialData,
   );
 
+  const handleSearch = (query: string) => {
+    updateParams({
+      search: query,
+      offset: '0-0-0-16',
+    });
+  };
+
+  const handleSort = (sortBy: string) => {
+    updateParams({
+      order: sortBy,
+      offset: '0-0-0-16',
+    });
+  };
+
   return (
     <Box>
       {error && <Alert.Root>{error}</Alert.Root>}
+      <Navbar onSearch={handleSearch} onSort={handleSort} initialSearch={''} initialSort={'0'} />
       <BookList
         books={books}
         isLoading={isLoading}
