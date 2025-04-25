@@ -36,7 +36,7 @@ export const useFetch = <T>(baseUrl: string, params: Record<string, string> = {}
   const url = useMemo(() => `${baseUrl}?${queryString}`, [baseUrl, queryString]);
   const [state, setState] = useState<FetchState<T>>({
     data: null,
-    loading: true,
+    loading: false,
     error: null,
   });
 
