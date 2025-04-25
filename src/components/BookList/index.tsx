@@ -1,7 +1,7 @@
 import { SimpleGrid, Skeleton, Alert, Spinner, VStack } from '@chakra-ui/react';
 import { BookCard } from '../BookCard';
 import { Book } from '@/types/book';
-import { useEffect } from 'react';
+import { Sentinel } from '../Sentinel';
 
 /**
  * Properties of BookList
@@ -10,6 +10,7 @@ type BookListProps = {
   books: Book[];
   isLoading: boolean;
   isError: boolean;
+  hasMore: boolean;
   loadMore: () => void;
 };
 
@@ -20,19 +21,7 @@ type BookListProps = {
  * @param isError indicated error if it cannot pass data
  * @param loadMore a callback called when reached to the end and there is more data!
  */
-export const BookList = ({ books, isLoading, isError, loadMore }: BookListProps) => {
-  // Scroll handler
-  useEffect(() => {
-    const handleScroll = () => {
-      if (window.innerHeight + window.scrollY >= document.documentElement.offsetHeight - 100) {
-        loadMore();
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [loadMore]);
-
+export const BookList = ({ books, isLoading, isError, hasMore, loadMore }: BookListProps) => {
   return (
     <>
       {/* TODO: show proper error message */}
@@ -55,6 +44,9 @@ export const BookList = ({ books, isLoading, isError, loadMore }: BookListProps)
           <Spinner color="colorPalette.600" size="xl" />
         </VStack>
       )}
+
+      {/* TODO: issue with two request here */}
+      <Sentinel onLoadMore={loadMore} hasMore={hasMore} isLoading={isLoading} />
     </>
   );
 };

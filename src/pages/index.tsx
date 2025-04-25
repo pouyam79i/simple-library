@@ -25,11 +25,17 @@ const INITIAL_PARAMS = {
  * Renders home page
  */
 export default function Home() {
-  const { books, isLoading, isError, loadMore } = useBooks(BASE_URL, INITIAL_PARAMS);
+  const { books, isLoading, isError, hasMore, loadMore } = useBooks(BASE_URL, INITIAL_PARAMS);
 
   return (
     <Box>
-      <BookList books={books} isLoading={isLoading} isError={isError} loadMore={loadMore} />
+      <BookList
+        books={books}
+        isLoading={isLoading}
+        isError={isError}
+        hasMore={hasMore}
+        loadMore={loadMore}
+      />
     </Box>
   );
 }
