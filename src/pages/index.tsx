@@ -1,6 +1,9 @@
 import { BookList } from '@/components/BookList';
 import { useBooks } from '@/hooks/useBooks';
-import { Box } from '@chakra-ui/react';
+import { BookListData } from '@/types/book-list-data';
+import { fetchInitialBooks } from '@/utils/api';
+import { Alert, Box } from '@chakra-ui/react';
+import { GetServerSideProps } from 'next';
 
 /**
  * Base URL
@@ -21,14 +24,28 @@ const INITIAL_PARAMS = {
   order: 1,
 };
 
+// TODO: handle error of initial load
+/**
+ * Home page properties
+ */
+interface HomeProps {
+  initialData?: BookListData;
+  error?: string;
+}
+
 /**
  * Renders home page
  */
-export default function Home() {
-  const { books, isLoading, isError, hasMore, loadMore } = useBooks(BASE_URL, INITIAL_PARAMS);
+export default function Home({ initialData, error }: HomeProps) {
+  const { books, isLoading, isError, hasMore, loadMore } = useBooks(
+    BASE_URL,
+    INITIAL_PARAMS,
+    initialData,
+  );
 
   return (
     <Box>
+      {error && <Alert.Root>{error}</Alert.Root>}
       <BookList
         books={books}
         isLoading={isLoading}
@@ -39,3 +56,21 @@ export default function Home() {
     </Box>
   );
 }
+
+/**
+ * Handles first fetch when SSR
+ */
+export const getServerSideProps: GetServerSideProps<HomeProps> = async () => {
+  try {
+    const initialData = await fetchInitialBooks();
+    return {
+      props: { initialData },
+    };
+  } catch (error) {
+    return {
+      props: {
+        error: error instanceof Error ? error.message : 'Failed to load books',
+      },
+    };
+  }
+};

@@ -8,15 +8,20 @@ import { Book } from '@/types/book';
  * @param baseUrl base api address to get list of books
  * @returns books data and fetch status
  */
-export const useBooks = (baseUrl: string, initialParams = {}) => {
+export const useBooks = (
+  baseUrl: string,
+  initialParams = {},
+  initialData: BookListData | null = null,
+) => {
   const [params, setParams] = useState({
     ...initialParams,
-    offset: '0-0-0-16',
+    offset: initialData?.nextOffset || '0-0-0-16',
   });
 
-  const [books, setBooks] = useState<Book[]>([]);
-  const [hasMore, setHasMore] = useState(true);
+  const [books, setBooks] = useState<Book[]>(initialData?.bookList?.books || []);
+  const [hasMore, setHasMore] = useState<boolean>(initialData?.hasMore || true);
 
+  // TODO: make it so it won't call it many one more time on initialization
   const { data, loading, error, refetch } = useFetch<BookListData>(baseUrl, params);
 
   const loadMore = useCallback(() => {
@@ -35,14 +40,24 @@ export const useBooks = (baseUrl: string, initialParams = {}) => {
     }
   }, [data]);
 
+  // initial load
   useEffect(() => {
-    setBooks([]);
-    setParams({
-      ...initialParams,
-      offset: '0-0-0-16',
-    });
-    setHasMore(true);
-  }, [baseUrl, initialParams]);
+    if (initialData) {
+      setBooks(initialData.bookList.books);
+      setParams({
+        ...initialParams,
+        offset: initialData.nextOffset,
+      });
+      setHasMore(initialData.hasMore);
+    } else {
+      setBooks([]);
+      setParams({
+        ...initialParams,
+        offset: '0-0-0-16',
+      });
+      setHasMore(true);
+    }
+  }, [baseUrl, initialParams, initialData]);
 
   return {
     books,
