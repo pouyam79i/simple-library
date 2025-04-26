@@ -10,6 +10,7 @@ COPY . .
 
 RUN npm run build
 
+# TODO: use nginx for better performance
 # Stage 2: Creating production
 FROM node:20.18-alpine AS production
 
