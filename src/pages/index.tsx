@@ -38,7 +38,7 @@ interface HomeProps {
  * Renders home page
  */
 export default function Home({ initialData, error }: HomeProps) {
-  const { books, isLoading, isError, hasMore, loadMore, updateParams } = useBooks(
+  const { books, isLoading, isError, hasMore, loadMore, updateParams, refresh } = useBooks(
     BASE_URL,
     INITIAL_PARAMS,
     initialData,
@@ -52,10 +52,12 @@ export default function Home({ initialData, error }: HomeProps) {
   };
 
   const handleSort = (sortBy: string) => {
-    updateParams({
-      order: sortBy,
-      offset: '0-0-0-16',
-    });
+    if (sortBy)
+      updateParams({
+        order: sortBy,
+        offset: '0-0-0-16',
+      });
+    else refresh();
   };
 
   return (
@@ -72,7 +74,7 @@ export default function Home({ initialData, error }: HomeProps) {
       </Box>
       <Box marginTop={'100px'}>
         {isLoading && books?.length > 0 && (
-          <VStack width="100%" position="fixed" top="100px" colorPalette="teal">
+          <VStack width="100%" position="fixed" top="100px" zIndex={10} colorPalette="teal">
             <Spinner color="colorPalette.600" size="xl" />
           </VStack>
         )}

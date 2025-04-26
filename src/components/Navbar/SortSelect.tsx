@@ -40,6 +40,14 @@ export const SortSelect = ({ onChange }: SortSelectProps) => {
             padding: 8,
           }}
         />
+        <Select.ClearTrigger
+          style={{
+            position: 'absolute',
+            left: 20,
+            height: '100%',
+            padding: 8,
+          }}
+        />
         <Select.Trigger>
           <Select.ValueText placeholder="فیلتر" />
         </Select.Trigger>

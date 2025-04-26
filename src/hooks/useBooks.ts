@@ -10,10 +10,10 @@ import { Book } from '@/types/book';
  */
 export const useBooks = (
   baseUrl: string,
-  initialParams = {},
+  initialParams: Record<string, any> = {},
   initialData: BookListData | null = null,
 ) => {
-  const [params, setParams] = useState({
+  const [params, setParams] = useState<Record<string, any>>({
     ...initialParams,
     offset: initialData?.nextOffset || '0-0-0-16',
   });
@@ -34,11 +34,12 @@ export const useBooks = (
   }, [data?.hasMore, data?.nextOffset, loading]);
 
   useEffect(() => {
-    if (data?.bookList?.books) {
-      setBooks((prev) => [...prev, ...data.bookList.books]);
-      setHasMore(data.hasMore);
-    }
-  }, [data]);
+    if (data?.bookList?.books) setBooks((prev) => [...prev, ...data.bookList.books]);
+  }, [data?.bookList.books]);
+
+  useEffect(() => {
+    setHasMore(data?.hasMore || false);
+  }, [data?.hasMore]);
 
   // initial load
   useEffect(() => {
@@ -66,7 +67,7 @@ export const useBooks = (
     error,
     hasMore,
     loadMore,
-    updateParams: useCallback((newParams: Partial<typeof params>) => {
+    updateParams: useCallback((newParams: Record<string, any>) => {
       setParams((prev) => ({
         ...prev,
         ...newParams,

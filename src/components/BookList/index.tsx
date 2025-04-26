@@ -37,7 +37,7 @@ export const BookList = ({ books, isLoading, isError, hasMore, loadMore }: BookL
           ? Array(16)
               .fill(0)
               .map((_, i) => <Skeleton margin={4} key={i} height="400px" borderRadius="md" />)
-          : books?.map((book) => <BookCard key={book.id} book={book} />)}
+          : books?.map((book, index) => <BookCard key={index} book={book} />)}
       </SimpleGrid>
 
       {/* TODO: issue with two request here */}
