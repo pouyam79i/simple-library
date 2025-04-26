@@ -1,6 +1,8 @@
 import { createListCollection, Portal, Select } from '@chakra-ui/react';
 import { ChangeEvent } from 'react';
 
+// TODO: refactor name of sort to FilterSelect
+
 /**
  * Sort select props
  */
@@ -14,8 +16,8 @@ type SortSelectProps = {
  */
 const sort_options = createListCollection({
   items: [
-    { label: 'نزولی', value: 'dec' },
-    { label: 'صعودی', value: 'asc' },
+    { label: 'کتاب های صوتی', value: 'vocal' },
+    { label: 'فقط کتاب های موجود', value: 'in-stock' },
   ],
 });
 

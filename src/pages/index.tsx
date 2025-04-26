@@ -19,6 +19,7 @@ const INITIAL_PARAMS = {
   filters: {
     list: [
       { type: 21, value: 0 },
+      { type: 17, value: 1 },
       { type: 6, value: -150000 },
     ],
   },
@@ -44,6 +45,7 @@ export default function Home({ initialData, error }: HomeProps) {
     initialData,
   );
 
+  // TODO: move this function to a util ts file
   const handleSearch = (query: string) => {
     updateParams({
       search: query,
@@ -51,7 +53,9 @@ export default function Home({ initialData, error }: HomeProps) {
     });
   };
 
+  // TODO: move this function to a util ts file
   const handleSort = (sortBy: string) => {
+    // TODO: handle sorts
     if (sortBy)
       updateParams({
         order: sortBy,
