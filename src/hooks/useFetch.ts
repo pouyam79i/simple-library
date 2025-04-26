@@ -1,5 +1,7 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
 
+// TODO: critical issue with performance on fetching data
+
 /**
  * Contains fetched data and its status
  */
