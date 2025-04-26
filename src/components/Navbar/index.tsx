@@ -2,6 +2,7 @@ import { HStack } from '@chakra-ui/react';
 import { useState, useEffect } from 'react';
 import { SearchInput } from './SearchInput';
 import { SortSelect } from './SortSelect';
+import ColorModeButton from './ColorModeButton';
 
 /**
  * Navbar props
@@ -33,6 +34,7 @@ export const Navbar = ({ onSearch, onSort, initialSearch = '' }: NavbarProps) =>
 
   return (
     <HStack justify={'space-between'}>
+      <ColorModeButton />
       <SearchInput value={searchTerm} onChange={(val) => setSearchTerm(val)} />
       <SortSelect onChange={(val) => onSort(val)} />
     </HStack>
