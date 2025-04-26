@@ -60,10 +60,17 @@ export default function Home({ initialData, error }: HomeProps) {
 
   return (
     <Box>
-      <Box position={'fixed'} top={0} zIndex={10} width={'100%'} backgroundColor={'black'}>
+      <Box
+        position={'fixed'}
+        top={0}
+        zIndex={10}
+        width={'100%'}
+        backgroundColor={'bg'}
+        borderBottomWidth={'1px'}
+      >
         <Navbar onSearch={handleSearch} onSort={handleSort} initialSearch={''} initialSort={'0'} />
       </Box>
-      <Box marginTop={'120px'}>
+      <Box marginTop={'100px'}>
         {isLoading && books?.length > 0 && (
           <VStack width="100%" position="fixed" top="100px" colorPalette="teal">
             <Spinner color="colorPalette.600" size="xl" />
