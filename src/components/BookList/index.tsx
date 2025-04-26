@@ -1,4 +1,4 @@
-import { SimpleGrid, Skeleton, Alert, Spinner, VStack } from '@chakra-ui/react';
+import { SimpleGrid, Skeleton, Alert, Box } from '@chakra-ui/react';
 import { BookCard } from '../BookCard';
 import { Book } from '@/types/book';
 import { Sentinel } from '../Sentinel';
@@ -23,7 +23,7 @@ type BookListProps = {
  */
 export const BookList = ({ books, isLoading, isError, hasMore, loadMore }: BookListProps) => {
   return (
-    <>
+    <Box>
       {/* TODO: show proper error message */}
       {isError && (
         <Alert.Root status="error">
@@ -39,14 +39,9 @@ export const BookList = ({ books, isLoading, isError, hasMore, loadMore }: BookL
               .map((_, i) => <Skeleton margin={4} key={i} height="400px" borderRadius="md" />)
           : books?.map((book) => <BookCard key={book.id} book={book} />)}
       </SimpleGrid>
-      {isLoading && books?.length > 0 && (
-        <VStack width="100%" position="fixed" top="20px" colorPalette="teal">
-          <Spinner color="colorPalette.600" size="xl" />
-        </VStack>
-      )}
 
       {/* TODO: issue with two request here */}
       <Sentinel onLoadMore={loadMore} hasMore={hasMore} isLoading={isLoading} />
-    </>
+    </Box>
   );
 };

@@ -3,7 +3,7 @@ import { Navbar } from '@/components/Navbar';
 import { useBooks } from '@/hooks/useBooks';
 import { BookListData } from '@/types/book-list-data';
 import { fetchInitialBooks } from '@/utils/api';
-import { Alert, Box } from '@chakra-ui/react';
+import { Box, Spinner, VStack } from '@chakra-ui/react';
 import { GetServerSideProps } from 'next';
 
 /**
@@ -60,15 +60,25 @@ export default function Home({ initialData, error }: HomeProps) {
 
   return (
     <Box>
-      {error && <Alert.Root>{error}</Alert.Root>}
-      <Navbar onSearch={handleSearch} onSort={handleSort} initialSearch={''} initialSort={'0'} />
-      <BookList
-        books={books}
-        isLoading={isLoading}
-        isError={isError}
-        hasMore={hasMore}
-        loadMore={loadMore}
-      />
+      <Box position={'fixed'} top={0} zIndex={10} width={'100%'} backgroundColor={'black'}>
+        <Navbar onSearch={handleSearch} onSort={handleSort} initialSearch={''} initialSort={'0'} />
+      </Box>
+      <Box marginTop={'120px'}>
+        {isLoading && books?.length > 0 && (
+          <VStack width="100%" position="fixed" top="100px" colorPalette="teal">
+            <Spinner color="colorPalette.600" size="xl" />
+          </VStack>
+        )}
+        {/* TODO: handle ssr related error in a proper manner */}
+        {/* {error && <Alert.Root>{error}</Alert.Root>} */}
+        <BookList
+          books={books}
+          isLoading={isLoading}
+          isError={isError}
+          hasMore={hasMore}
+          loadMore={loadMore}
+        />
+      </Box>
     </Box>
   );
 }
