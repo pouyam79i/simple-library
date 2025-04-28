@@ -47,21 +47,21 @@ export default function Home({ initialData, error }: HomeProps) {
 
   // TODO: move this function to a util ts file
   const handleSearch = (query: string) => {
-    updateParams({
-      search: query,
-      offset: '0-0-0-16',
-    });
+    // updateParams({
+    //   search: query,
+    //   offset: '0-0-0-16',
+    // });
   };
 
   // TODO: move this function to a util ts file
   const handleSort = (sortBy: string) => {
-    // TODO: handle sorts
-    if (sortBy)
-      updateParams({
-        order: sortBy,
-        offset: '0-0-0-16',
-      });
-    else refresh();
+    // // TODO: handle sorts
+    // if (sortBy)
+    //   updateParams({
+    //     order: sortBy,
+    //     offset: '0-0-0-16',
+    //   });
+    // else refresh();
   };
 
   return (

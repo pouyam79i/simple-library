@@ -70,11 +70,10 @@ export const useBooks = (
     hasMore,
     loadMore,
     updateParams: useCallback((newParams: Record<string, any>) => {
-      setParams((prev) => ({
-        ...prev,
+      setParams({
         ...newParams,
         offset: '0-0-0-16',
-      }));
+      });
     }, []),
     refresh: useCallback(() => {
       setBooks([]);
