@@ -1,6 +1,5 @@
+import axios, { AxiosRequestConfig } from 'axios';
 import { useState, useEffect, useCallback, useMemo } from 'react';
-
-// TODO: critical issue with performance on fetching data
 
 /**
  * Contains fetched data and its status
@@ -9,62 +8,46 @@ type FetchState<T> = {
   data: T | null;
   loading: boolean;
   error: Error | null;
+  triggerFetch: () => void;
 };
 
 /**
- * Generates query params into a string to use it inside a url
- * @param params query params
- * @returns generated query parameter
- */
-const createQueryString = (params: Record<string, string>): string => {
-  const searchParams = new URLSearchParams();
-
-  Object.entries(params).forEach(([key, value]) => {
-    if (value === undefined || value === null) return;
-    searchParams.set(key, typeof value === 'object' ? JSON.stringify(value) : value.toString());
-  });
-
-  return searchParams.toString();
-};
-
-/**
- * Generalized hook for fetching data
+ * Generalized hook for fetching data / get request
  * @param baseUrl api address to fetch data from
- * @param params query params
- * @returns fetch state contains data and fetch status
+ * @param config axios configuration
+ * @returns data and fetch status
  */
-export const useFetch = <T>(baseUrl: string, params: Record<string, string> = {}) => {
-  const queryString = useMemo(() => createQueryString(params), [params]);
-  const url = useMemo(() => `${baseUrl}?${queryString}`, [baseUrl, queryString]);
-  const [state, setState] = useState<FetchState<T>>({
-    data: null,
-    loading: false,
-    error: null,
-  });
-
-  const fetchData = useCallback(async () => {
-    try {
-      setState((prev) => ({ ...prev, loading: true }));
-
-      const response = await fetch(url);
-      if (!response.ok) throw new Error(`HTTP ${response.status}`);
-
-      const data: T = await response.json();
-      setState({ data, loading: false, error: null });
-    } catch (error) {
-      setState({ data: null, loading: false, error: error as Error });
-    }
-  }, [url]);
-
-  // cache result
-  const cachedFetch = useMemo(() => fetchData, [fetchData]);
+export const useFetch = <T>(baseUrl: string, config: AxiosRequestConfig = {}): FetchState<T> => {
+  const [data, setData] = useState<T | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<Error | null>(null);
+  const [trigger, setTrigger] = useState(false);
 
   useEffect(() => {
-    cachedFetch();
-  }, [cachedFetch]);
+    setLoading(true);
+    const controller = new AbortController();
+    axios
+      .get<T>(baseUrl, { ...config, signal: controller.signal })
+      .then((res) => {
+        setError(null);
+        setLoading(false);
+        setData(res.data);
+      })
+      .catch((error) => {
+        setError(error);
+        setLoading(false);
+        setData(null);
+      });
+
+    return () => controller.abort();
+  }, [trigger]);
 
   return {
-    ...state,
-    refetch: cachedFetch,
+    data,
+    loading,
+    error,
+    triggerFetch: () => {
+      if (!loading) setTrigger(!trigger);
+    },
   };
 };

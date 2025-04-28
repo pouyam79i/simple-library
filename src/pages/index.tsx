@@ -10,20 +10,14 @@ import { GetServerSideProps } from 'next';
  * Base URL
  * TODO: better way to implement app property
  */
-const BASE_URL = 'https://get.taaghche.com/v2/everything';
+const BASE_URL =
+  'https://get.taaghche.com/v2/everything?filters=%7B%22list%22:[%7B%22type%22:21,%22value%22:0%7D,%7B%22type%22:6,%22value%22:-150000%7D,%7B%22type%22:50,%22value%22:0%7D]%7D&order=1';
 /**
  * INITIAL PARAMS
  * TODO: better way to implement app property
  */
 const INITIAL_PARAMS = {
-  filters: {
-    list: [
-      { type: 21, value: 0 },
-      { type: 17, value: 1 },
-      { type: 6, value: -150000 },
-    ],
-  },
-  order: 1,
+  // order: 1,
 };
 
 // TODO: handle error of initial load
@@ -38,30 +32,19 @@ interface HomeProps {
 /**
  * Renders home page
  */
-export default function Home({ initialData, error }: HomeProps) {
-  const { books, isLoading, isError, hasMore, loadMore, updateParams, refresh } = useBooks(
+export default function Home({ initialData }: HomeProps) {
+  const { books, isLoading, isError, hasMore, loadMore } = useBooks(
     BASE_URL,
     INITIAL_PARAMS,
     initialData,
   );
 
   // TODO: move this function to a util ts file
-  const handleSearch = (query: string) => {
-    updateParams({
-      search: query,
-      offset: '0-0-0-16',
-    });
-  };
+  const handleSearch = (query: string) => {};
 
   // TODO: move this function to a util ts file
   const handleSort = (sortBy: string) => {
     // TODO: handle sorts
-    if (sortBy)
-      updateParams({
-        order: sortBy,
-        offset: '0-0-0-16',
-      });
-    else refresh();
   };
 
   return (

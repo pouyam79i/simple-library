@@ -2,6 +2,7 @@ import { SimpleGrid, Skeleton, Alert, Box } from '@chakra-ui/react';
 import { BookCard } from '../BookCard';
 import { Book } from '@/types/book';
 import { Sentinel } from '../Sentinel';
+// import { Sentinel } from '../Sentinel';
 
 /**
  * Properties of BookList
@@ -33,11 +34,13 @@ export const BookList = ({ books, isLoading, isError, hasMore, loadMore }: BookL
       )}
       {/* TODO: refactor and unify styles for skeleton and card */}
       <SimpleGrid columns={{ base: 1, sm: 2, md: 3, lg: 4, xl: 5, '2xl': 7 }}>
-        {isLoading && !(books?.length > 0)
+        {isLoading
           ? Array(16)
               .fill(0)
               .map((_, i) => <Skeleton margin={4} key={i} height="400px" borderRadius="md" />)
-          : books?.map((book, index) => <BookCard key={index} book={book} />)}
+          : books?.length > 0
+            ? books?.map((book, index) => <BookCard key={index} book={book} />)
+            : ''}
       </SimpleGrid>
 
       {/* // TODO: critical issue with performance on fetching data */}
