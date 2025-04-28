@@ -40,7 +40,7 @@ export const BookList = ({ books, isLoading, isError, hasMore, loadMore }: BookL
           : books?.map((book, index) => <BookCard key={index} book={book} />)}
       </SimpleGrid>
 
-      {/* // TODO: critical issue with performance on fetching data */}
+      {/* TODO: issue with second request */}
       <Sentinel onLoadMore={loadMore} hasMore={hasMore} isLoading={isLoading} />
     </Box>
   );

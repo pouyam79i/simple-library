@@ -3,11 +3,11 @@ import { BookListData } from '@/types/book-list-data';
 import { useFetch } from './useFetch';
 import { Book } from '@/types/book';
 
-// TODO: critical issue with performance on fetching data
-
 /**
  * This hooks fetches list of books from a given url
  * @param baseUrl base api address to get list of books
+ * @param initialParams base params on first data fetch
+ * @param initialData initial data if there is any
  * @returns books data and fetch status
  */
 export const useBooks = (
